@@ -1,0 +1,91 @@
+<div class="person-container">
+  <h1 class="formField" style="margin-bottom: 40px;">Enter information about person</h1>
+  <form style="margin-bottom: 40px;">
+    <mat-form-field class="formField">
+      <input [(ngModel)]="person.firstName" name="FirstName" type="text" matInput placeholder="First name" required>
+    </mat-form-field>
+    <mat-form-field class="formField">
+      <input [(ngModel)]="person.lastName" name="LastName" type="text" matInput placeholder="Last name" required>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field class="formField">
+      <input [(ngModel)]="person.age" type="number" pattern="^([1-9]|[1-9][0-9]|[1][0-1][0-9])" min="0" max="120"
+        name="Age" matInput placeholder="Age" required>
+    </mat-form-field>
+    <mat-form-field class="formField">
+      <mat-label>Gender</mat-label>
+      <mat-select style="font-family: 'Comic Sans MS', cursive, sans-serif;" [(ngModel)]="person.sex" name="Gender"
+        required>
+        <mat-option value="Male">Male</mat-option>
+        <mat-option value="Female">Female</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field class="formField">
+      <input [(ngModel)]="person.relation" name="Relation" type="text" placeholder="Relation" aria-label="Number"
+        matInput [formControl]="relationControl" [matAutocomplete]="autoRelation">
+      <mat-autocomplete autoActiveFirstOption #autoRelation="matAutocomplete">
+        <mat-option *ngFor="let relation of filteredRelations | async" [value]="relation">
+          {{relation}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="formField">
+      <input [(ngModel)]="person.occasion" name="Occasion" type="text" placeholder="Occasion" aria-label="Number"
+        matInput [formControl]="occasionControl" [matAutocomplete]="autoOccasion">
+      <mat-autocomplete autoActiveFirstOption #autoOccasion="matAutocomplete">
+        <mat-option *ngFor="let occasion of filteredOccasions | async" [value]="occasion">
+          {{occasion}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field style="width: 444px;" class="formField">
+      <mat-label>Interests</mat-label>
+      <mat-select [(ngModel)]="person.interests" name="Interests" [multiple]="true">
+        <mat-option *ngFor="let interest of interests" [value]="interest">
+          {{interest}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field class="formField">
+      <mat-label>Price level</mat-label>
+      <mat-select style="font-family: 'Comic Sans MS', cursive, sans-serif;" [(ngModel)]="person.priceLevel"
+        name="PriceLevel">
+        <mat-option value="Low">Low</mat-option>
+        <mat-option value="Medium">Medium</mat-option>
+        <mat-option value="Hignt">Hight</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="formField">
+      <mat-label>Psyco type</mat-label>
+      <mat-select style="font-family: 'Comic Sans MS', cursive, sans-serif;" [(ngModel)]="person.psycoType"
+        name="PsycoType">
+        <mat-option value="Introvert">Introvert</mat-option>
+        <mat-option value="Extrovert">Extrovert</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+  <button style="font-size: 20px;margin-right: 40px;" class="formField" (click)="predictPresents()" mat-button
+    [disabled]="!person.firstName||!person.lastName||!person.age||!person.sex">
+    SHOW PRESENTS
+  </button>
+  <button style="font-size: 20px;margin-left: 40px;margin-right: 40px;" class="formField" mat-button>RESET</button>
+
+  <form *ngIf="presents" class="presentsForm">
+    <a *ngFor="let present of presents" class="present" target="_blank"
+      href="https://www.google.com/search?q={{present}}" (click)="selectPresent(present)">
+      <img src="assets\images\{{present.toLowerCase()}}.jpg" style="width: 200px; height: 100px;">
+      <caption style="width: 200px;text-align: left;">{{present}}</caption>
+    </a>
+  </form>
+</div>
